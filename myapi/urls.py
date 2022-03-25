@@ -15,7 +15,6 @@ Including another URLconf
 """
 from myapi.core import views
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib import admin
 
 urlpatterns = [
@@ -23,6 +22,7 @@ urlpatterns = [
     path('hello/', views.HelloView.as_view(), name='hello'),
     #this path is for getting tokens with username and password
     #NOTE: this currently does not expire on server side
-    path('login/', obtain_auth_token, name='api_token_auth'),
-    path('register/', views.RegisterView.as_view(), name='auth_register'),  
+    path('login/', views.CustomAuthToken.as_view(), name='api_token_auth'),
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
+    path('callout/', views.RoadsideCalloutView.as_view(), name='roadside_callout'),    
 ]

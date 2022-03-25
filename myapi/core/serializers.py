@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from .models import CustomUser as User
+from .models import RoadsideCallout
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-
+from rest_framework.validators import UniqueTogetherValidator
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -16,10 +18,11 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         #need to add type of user ie. mechanic or not? and also subscription or not?
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type')
         extra_kwargs = {
             'first_name': {'required': True},
-            'last_name': {'required': True}
+            'last_name': {'required': True},
+            'user_type': {'required': True}
         }
 
     def validate(self, attrs):
@@ -33,7 +36,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            last_name=validated_data['last_name'],
+            user_type=validated_data['user_type']
         )
  
         user.set_password(validated_data['password'])
@@ -41,4 +45,47 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+# create callout requests
+class CalloutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoadsideCallout
+        fields = ('username', 'status', 'location', 'mechanic', 'date', 'rating', 'review')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=RoadsideCallout.objects.all(),
+                fields=['username', 'date']
+            )
+        ]
+
+    def validate(self, attrs):
+        # if attrs['password'] != attrs['password2']:
+        #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        return RoadsideCallout.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.status = validated_data.get('status', instance.status)
+        instance.location = validated_data.get('location', instance.location)
+        instance.mechanic = validated_data.get('mechanic', instance.mechanic)
+        instance.date = validated_data.get('date', instance.date)
+        instance.rating = validated_data.get('rating', instance.rating)
+        instance.review = validated_data.get('review', instance.review)
+        return instance
+
 # for next serializers. https://www.django-rest-framework.org/tutorial/1-serialization/
+
+# view all callout requests
+
+# accept a callout request
+
+# mark a callout as complete
+
+# review a complete callout
+
+# get average reviews 
+
+# add a subscription car
