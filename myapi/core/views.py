@@ -3,10 +3,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 # from django.contrib.auth.models import User
 from .models import CustomUser as User
+from .models import RoadsideCallout
 from .serializers import RegisterSerializer, CalloutSerializer
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework import mixins
 
 class HelloView(APIView):
     #this indicates auth token is required
@@ -21,9 +23,37 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-class RoadsideCalloutView(generics.CreateAPIView):
+class CreateRoadsideCalloutView(generics.CreateAPIView, 
+                ):
     permission_classes = (IsAuthenticated,)
     serializer_class = CalloutSerializer
+
+class UpdateRoadsideCalloutView(generics.CreateAPIView):
+    queryset = RoadsideCallout.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CalloutSerializer
+
+    def post(self, request, *args, **kwargs):
+        username = request.data['username']
+        date = request.data['date']
+
+        callout = RoadsideCallout.objects.get(username=username, date=date)
+
+        updated_callout = CalloutSerializer(callout, request.data)
+
+        status=""
+
+        if updated_callout.is_valid():
+            updated_callout.update(callout, updated_callout)
+            status = 'OK'
+        else:
+            # TODO: definitely could do with some better info here
+            status = 'INVALID'
+        
+        return Response({
+            "status": status
+        })
+
 
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

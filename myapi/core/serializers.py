@@ -67,13 +67,14 @@ class CalloutSerializer(serializers.ModelSerializer):
         return RoadsideCallout.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
-        instance.status = validated_data.get('status', instance.status)
-        instance.location = validated_data.get('location', instance.location)
-        instance.mechanic = validated_data.get('mechanic', instance.mechanic)
-        instance.date = validated_data.get('date', instance.date)
-        instance.rating = validated_data.get('rating', instance.rating)
-        instance.review = validated_data.get('review', instance.review)
+        instance.username = self.validated_data.get('username', instance.username)
+        instance.status = self.validated_data.get('status', instance.status)
+        instance.location = self.validated_data.get('location', instance.location)
+        instance.mechanic = self.validated_data.get('mechanic', instance.mechanic)
+        instance.date = self.validated_data.get('date', instance.date)
+        instance.rating = self.validated_data.get('rating', instance.rating)
+        instance.review = self.validated_data.get('review', instance.review)
+        instance.save()
         return instance
 
 # for next serializers. https://www.django-rest-framework.org/tutorial/1-serialization/
