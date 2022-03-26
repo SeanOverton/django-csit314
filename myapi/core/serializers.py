@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # from django.contrib.auth.models import User
 from .models import CustomUser as User
-from .models import RoadsideCallout
+from .models import RoadsideCallout, UserSubscriptions
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueTogetherValidator
@@ -37,7 +37,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            user_type=validated_data['user_type']
+            user_type=validated_data['user_type'],
         )
  
         user.set_password(validated_data['password'])
@@ -79,14 +79,13 @@ class CalloutSerializer(serializers.ModelSerializer):
 
 # for next serializers. https://www.django-rest-framework.org/tutorial/1-serialization/
 
-# view all callout requests
-
-# accept a callout request
-
-# mark a callout as complete
-
-# review a complete callout
-
 # get average reviews 
 
 # add a subscription car
+class UserSubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSubscriptions
+        fields = ('username', 'vehicle_registration')
+    
+    def create(self, validated_data):
+        return UserSubscriptions.objects.create(**validated_data)
