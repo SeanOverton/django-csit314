@@ -28,4 +28,5 @@ urlpatterns = [
     path('update_callout/', views.UpdateRoadsideCalloutView.as_view(), name='update_roadside_callout'),
     path('all_callouts/', views.AllRoadsideCalloutsView.as_view(), name='view_all_callouts'),    
     path('update_subscriptions/', views.UpdateSubscriptionsView.as_view(), name='update_subscriptions'),
+    path('my_subscriptions/', views.MySubscriptionsView.as_view(), name='view_my_subscriptions'),    
 ]
