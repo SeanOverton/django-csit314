@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from myapi.core import views
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib import admin
 
 urlpatterns = [
@@ -24,6 +24,7 @@ urlpatterns = [
     #NOTE: this currently does not expire on server side
     path('login/', views.CustomAuthToken.as_view(), name='api_token_auth'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
-    path('callout/', views.CreateRoadsideCalloutView.as_view(), name='create_roadside_callout'),
-    path('update_callout/', views.UpdateRoadsideCalloutView.as_view(), name='update_roadside_callout'),    
+    path('create_callout/', views.CreateRoadsideCalloutView.as_view(), name='create_roadside_callout'),
+    path('update_callout/', views.UpdateRoadsideCalloutView.as_view(), name='update_roadside_callout'),
+    path('all_callouts/', views.AllRoadsideCalloutsView.as_view(), name='view_all_callouts'),    
 ]
