@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 # from django.contrib.auth.models import User
 from .models import CustomUser as User
-from .models import RoadsideCallout
-from .serializers import RegisterSerializer, CalloutSerializer
+from .models import RoadsideCallout, UserSubscriptions
+from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -57,7 +57,6 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
 
 class AllRoadsideCalloutsView(APIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = CalloutSerializer
 
     def get(self, request, *args, **kwargs):
         queryset = list(RoadsideCallout.objects.values())
@@ -73,7 +72,6 @@ class AllRoadsideCalloutsView(APIView):
 
         return JsonResponse(queryset, safe=False)
 
-
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -86,3 +84,18 @@ class CustomAuthToken(ObtainAuthToken):
             'username': user.username,
             'user_type': user.user_type
         })
+
+class UpdateSubscriptionsView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSubscriptionsSerializer
+
+class MySubscriptionsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = list(UserSubscriptions.objects.filter(username=request.GET['username']).values())
+        except KeyError:
+            return JsonResponse({"status": "Required arg. 'username'"})
+
+        return JsonResponse(queryset, safe=False)

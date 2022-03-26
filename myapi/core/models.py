@@ -12,3 +12,8 @@ class RoadsideCallout(models.Model):
     date = models.DateField(auto_now_add=False)
     rating = models.DecimalField(max_digits=1, decimal_places=0, default=0)
     review = models.TextField(default='')
+
+class UserSubscriptions(models.Model):
+    #this could eventually be updated to foreign key and list in user
+    username = models.CharField(max_length=25)
+    vehicle_registration = models.CharField(max_length=8)
