@@ -63,8 +63,11 @@ class AllRoadsideCalloutsView(APIView):
         queryset = list(RoadsideCallout.objects.values())
 
         try:
-            if(kwargs['status']):
-                queryset = list(RoadsideCallout.objects.filter(status=kwargs['status']).values())
+            #TODO: should be able to come up with a more generic filter here?
+            if(request.GET.get('status', '') != ''):
+                queryset = list(RoadsideCallout.objects.filter(status=request.GET['status']).values())
+            if(request.GET.get('mechanic', '') != ''):
+                queryset = list(RoadsideCallout.objects.filter(mechanic=request.GET['mechanic']).values())
         except KeyError:
             pass
 
