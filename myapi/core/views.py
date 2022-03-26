@@ -9,6 +9,7 @@ from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import mixins
+from django.http import JsonResponse
 
 class HelloView(APIView):
     #this indicates auth token is required
@@ -53,6 +54,24 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
         return Response({
             "status": status
         })
+
+class AllRoadsideCalloutsView(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CalloutSerializer
+
+    def get(self, request, *args, **kwargs):
+        queryset = list(RoadsideCallout.objects.values())
+
+        try:
+            #TODO: should be able to come up with a more generic filter here?
+            if(request.GET.get('status', '') != ''):
+                queryset = list(RoadsideCallout.objects.filter(status=request.GET['status']).values())
+            if(request.GET.get('mechanic', '') != ''):
+                queryset = list(RoadsideCallout.objects.filter(mechanic=request.GET['mechanic']).values())
+        except KeyError:
+            pass
+
+        return JsonResponse(queryset, safe=False)
 
 
 class CustomAuthToken(ObtainAuthToken):
