@@ -9,6 +9,7 @@ from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import mixins
+from django.http import JsonResponse
 
 class HelloView(APIView):
     #this indicates auth token is required
@@ -53,6 +54,14 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
         return Response({
             "status": status
         })
+
+class AllRoadsideCalloutsView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CalloutSerializer
+
+    def get(self, request, *args, **kwargs):
+        queryset = list(RoadsideCallout.objects.values())
+        return JsonResponse(queryset, safe=False)
 
 
 class CustomAuthToken(ObtainAuthToken):
