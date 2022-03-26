@@ -55,12 +55,19 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
             "status": status
         })
 
-class AllRoadsideCalloutsView(generics.CreateAPIView):
+class AllRoadsideCalloutsView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CalloutSerializer
 
     def get(self, request, *args, **kwargs):
         queryset = list(RoadsideCallout.objects.values())
+
+        try:
+            if(kwargs['status']):
+                queryset = list(RoadsideCallout.objects.filter(status=kwargs['status']).values())
+        except KeyError:
+            pass
+
         return JsonResponse(queryset, safe=False)
 
 
