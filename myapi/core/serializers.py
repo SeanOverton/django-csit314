@@ -29,6 +29,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
 
+        # Ensuring the usertype is valid.
+        if attrs['user_type'] not in ['customer', 'mechanic']:
+            raise serializers.ValidationError({"user_type": "User type is not a valid type, a mechanic or customer."})
+
         return attrs
 
     def create(self, validated_data):
@@ -60,6 +64,9 @@ class CalloutSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         # if attrs['password'] != attrs['password2']:
         #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETE']:
+            raise serializers.ValidationError({"status": "Invalid Status. Use instead: PENDING, ACCEPTED and COMPLETE."})
 
         return attrs
 
