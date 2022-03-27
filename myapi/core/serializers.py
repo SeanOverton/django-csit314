@@ -53,11 +53,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 class CalloutSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoadsideCallout
-        fields = ('username', 'status', 'location', 'mechanic', 'date', 'rating', 'review')
+        fields = ('username', 'status', 'location', 'description', 'mechanic', 'date', 'rating', 'review')
         validators = [
             UniqueTogetherValidator(
                 queryset=RoadsideCallout.objects.all(),
-                fields=['username', 'date']
+                fields=['username', 'location']
             )
         ]
 
@@ -74,9 +74,10 @@ class CalloutSerializer(serializers.ModelSerializer):
         return RoadsideCallout.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.username = self.validated_data.get('username', instance.username)
+        # instance.username = self.validated_data.get('username', instance.username)
         instance.status = self.validated_data.get('status', instance.status)
-        instance.location = self.validated_data.get('location', instance.location)
+        # instance.location = self.validated_data.get('location', instance.location)
+        # instance.description = self.validated_data.get('description', instance.description)
         instance.mechanic = self.validated_data.get('mechanic', instance.mechanic)
         instance.date = self.validated_data.get('date', instance.date)
         instance.rating = self.validated_data.get('rating', instance.rating)
