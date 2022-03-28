@@ -36,9 +36,9 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         username = request.data['username']
-        date = request.data['date']
+        location = request.data['location']
 
-        callout = RoadsideCallout.objects.get(username=username, date=date)
+        callout = RoadsideCallout.objects.get(username=username, location=location)
 
         updated_callout = CalloutSerializer(callout, request.data)
 
@@ -48,8 +48,7 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
             updated_callout.update(callout, updated_callout)
             status = 'OK'
         else:
-            # TODO: definitely could do with some better info here
-            status = 'INVALID'
+            status = updated_callout.errors
         
         return Response({
             "status": status
