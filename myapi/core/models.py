@@ -8,8 +8,9 @@ class RoadsideCallout(models.Model):
     username = models.CharField(max_length=25)
     status = models.CharField(max_length=10)
     location = models.TextField()
+    description = models.TextField()
     mechanic = models.CharField(max_length=25, default='')
-    date = models.DateField(auto_now_add=False)
+    date = models.DateTimeField(auto_now_add=True)
     rating = models.DecimalField(max_digits=1, decimal_places=0, default=0)
     review = models.TextField(default='')
 
