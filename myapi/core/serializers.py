@@ -62,7 +62,7 @@ class CalloutSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, attrs):
-        if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETE']:
+        if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED']:
             raise serializers.ValidationError({"status": "Invalid Status. Use instead: PENDING, ACCEPTED and COMPLETE."})
 
         return attrs
