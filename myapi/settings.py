@@ -98,6 +98,9 @@ DATABASES = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://csit314-python-backend.herokuapp.com'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
