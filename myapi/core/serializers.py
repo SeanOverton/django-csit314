@@ -88,7 +88,14 @@ class CalloutSerializer(serializers.ModelSerializer):
 class UserSubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscriptions
-        fields = ('username', 'vehicle_registration')
+        fields = ('username', 'vehicle_registration', 'active')
     
     def create(self, validated_data):
         return UserSubscriptions.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.username = self.validated_data.get('username', instance.username)
+        instance.vehicle_registration = self.validated_data.get('vehicle_registration', instance.vehicle_registration)
+        instance.active = self.validated_data.get('active', instance.active)
+        instance.save()
+        return instance

@@ -33,7 +33,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "csit314-python-backend.herokuapp.com",
-    "127.0.0.1"
+    "127.0.0.1",
+    "localhost"
 ]
 
 

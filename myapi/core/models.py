@@ -18,3 +18,4 @@ class UserSubscriptions(models.Model):
     #this could eventually be updated to foreign key and list in user
     username = models.CharField(max_length=25)
     vehicle_registration = models.CharField(max_length=8)
+    active = models.BooleanField()

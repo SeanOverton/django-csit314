@@ -77,9 +77,26 @@ class CustomAuthToken(ObtainAuthToken):
             'user_type': user.user_type
         })
 
-class UpdateSubscriptionsView(generics.CreateAPIView):
+class AddSubscriptionView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSubscriptionsSerializer
+
+class UpdateSubscriptionView(generics.CreateAPIView):
+    queryset = UserSubscriptions.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSubscriptionsSerializer
+
+    def post(self, request, *args, **kwargs):
+        username = request.data['username']
+        rego = request.data['vehicle_registration']
+
+        subscription = UserSubscriptions.objects.filter(username=username, vehicle_registration=rego, active=True)[0]
+        updated_subscription = UserSubscriptionsSerializer(subscription, request.data)
+
+        if updated_subscription.is_valid():
+            updated_subscription.update(subscription, updated_subscription)
+            return Response(updated_subscription.data)
+        return Response(updated_subscription.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MySubscriptionsView(APIView):
     permission_classes = (IsAuthenticated,)
