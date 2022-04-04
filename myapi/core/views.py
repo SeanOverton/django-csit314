@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
-# from django.contrib.auth.models import User
 from .models import CustomUser as User
 from .models import RoadsideCallout, UserSubscriptions
 from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer
@@ -42,17 +42,10 @@ class UpdateRoadsideCalloutView(generics.CreateAPIView):
 
         updated_callout = CalloutSerializer(callout, request.data)
 
-        status=""
-
         if updated_callout.is_valid():
             updated_callout.update(callout, updated_callout)
-            status = 'OK'
-        else:
-            status = updated_callout.errors
-        
-        return Response({
-            "status": status
-        })
+            return Response(updated_callout.data)
+        return Response(updated_callout.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AllRoadsideCalloutsView(APIView):
     permission_classes = (IsAuthenticated,)

@@ -63,7 +63,7 @@ class CalloutSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED']:
-            raise serializers.ValidationError({"status": "Invalid Status. Use instead: PENDING, ACCEPTED and COMPLETE."})
+            raise serializers.ValidationError({"status": "Invalid Status. Use instead: ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED']"})
 
         return attrs
 
@@ -81,8 +81,6 @@ class CalloutSerializer(serializers.ModelSerializer):
         instance.review = self.validated_data.get('review', instance.review)
         instance.save()
         return instance
-
-# for next serializers. https://www.django-rest-framework.org/tutorial/1-serialization/
 
 # get average reviews 
 
