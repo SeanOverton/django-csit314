@@ -88,7 +88,7 @@ class CalloutSerializer(serializers.ModelSerializer):
 class UserSubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscriptions
-        fields = ('username', 'vehicle_registration', 'active')
+        fields = ('username', 'vehicle_registration', 'vehicle_type', 'vehicle_model', 'vehicle_brand', 'vehicle_year', 'vehicle_weight', 'active')
     
     def create(self, validated_data):
         return UserSubscriptions.objects.create(**validated_data)

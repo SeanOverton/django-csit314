@@ -17,5 +17,10 @@ class RoadsideCallout(models.Model):
 class UserSubscriptions(models.Model):
     #this could eventually be updated to foreign key and list in user
     username = models.CharField(max_length=25)
-    vehicle_registration = models.CharField(max_length=8)
+    vehicle_registration = models.CharField(max_length=6)
+    vehicle_type = models.CharField(max_length=25)
+    vehicle_model = models.CharField(max_length=25)
+    vehicle_brand = models.CharField(max_length=25)
+    vehicle_year = models.CharField(max_length=25)
+    vehicle_weight = models.CharField(max_length=25)
     active = models.BooleanField()
