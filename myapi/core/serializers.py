@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # from django.contrib.auth.models import User
 from .models import CustomUser as User
-from .models import RoadsideCallout, UserSubscriptions
+from .models import RoadsideCallout, UserSubscriptions, UserLocation
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueTogetherValidator
@@ -97,5 +97,31 @@ class UserSubscriptionsSerializer(serializers.ModelSerializer):
         instance.username = self.validated_data.get('username', instance.username)
         instance.vehicle_registration = self.validated_data.get('vehicle_registration', instance.vehicle_registration)
         instance.active = self.validated_data.get('active', instance.active)
+        instance.save()
+        return instance
+
+# create callout requests
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserLocation
+        fields = ('username', 'location')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=UserLocation.objects.all(),
+                fields=['username']
+            )
+        ]
+
+    # def validate(self, attrs):
+    #     if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']:
+    #         raise serializers.ValidationError({"status": "Invalid Status. Use instead: ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']"})
+
+    #     return attrs
+
+    def create(self, validated_data):
+        return UserLocation.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.location = self.validated_data.get('location', instance.location)
         instance.save()
         return instance

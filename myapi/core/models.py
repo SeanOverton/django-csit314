@@ -24,3 +24,7 @@ class UserSubscriptions(models.Model):
     vehicle_year = models.CharField(max_length=25)
     vehicle_weight = models.CharField(max_length=25)
     active = models.BooleanField()
+
+class UserLocation(models.Model):
+    username = models.CharField(max_length=25)
+    location = models.JSONField()

@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import CustomUser as User
-from .models import RoadsideCallout, UserSubscriptions
-from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer
+from .models import RoadsideCallout, UserSubscriptions, UserLocation
+from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer, LocationSerializer
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -12,11 +12,8 @@ from rest_framework import mixins
 from django.http import JsonResponse
 
 class HelloView(APIView):
-    #this indicates auth token is required
-    permission_classes = (IsAuthenticated,)
-
     def get(self, request):
-        content = {'message': 'Hello, World!'}
+        content = {'message': 'Hello, World! Our server is up, lets go!'}
         return Response(content)
 
 class RegisterView(generics.CreateAPIView):
@@ -104,6 +101,40 @@ class MySubscriptionsView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             queryset = list(UserSubscriptions.objects.filter(username=request.GET['username']).values())
+        except KeyError:
+            return JsonResponse({"status": "Required arg. 'username'"})
+
+        return JsonResponse(queryset, safe=False)
+
+class CreateLocationView(generics.CreateAPIView, 
+                ):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LocationSerializer
+
+class UpdateLocationView(generics.CreateAPIView):
+    queryset = UserLocation.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LocationSerializer
+
+    def post(self, request, *args, **kwargs):
+        username = request.data['username']
+        # location = request.data['location']
+
+        location_obj = UserLocation.objects.get(username=username)
+
+        updated_location = LocationSerializer(location_obj, request.data)
+
+        if updated_location.is_valid():
+            updated_location.update(location_obj, updated_location)
+            return Response(updated_location.data)
+        return Response(updated_location.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetLocationView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = list(UserLocation.objects.filter(username=request.GET['username']).values())
         except KeyError:
             return JsonResponse({"status": "Required arg. 'username'"})
 
