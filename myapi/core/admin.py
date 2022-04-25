@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, RoadsideCallout, UserSubscriptions
+from .models import CustomUser, RoadsideCallout, UserSubscriptions, UserLocation
 
 class CustomUserAdmin(UserAdmin):
     list_display = (
@@ -10,3 +10,4 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(RoadsideCallout)
 admin.site.register(UserSubscriptions)
+admin.site.register(UserLocation)

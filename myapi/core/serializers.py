@@ -17,7 +17,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        #need to add type of user ie. mechanic or not? and also subscription or not?
         fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type')
         extra_kwargs = {
             'first_name': {'required': True},
@@ -48,6 +47,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+    def update(self, instance, validated_data):
+        # only allows you to update username and password
+        instance.username = self.validated_data.get('username', instance.username)
+        instance.first_name = self.validated_data.get('first_name', instance.first_name)
+        instance.last_name = self.validated_data.get('last_name', instance.last_name)
+        # if validated_data['password']:
+        #     instance.set_password(validated_data['password'])
+        instance.save()
+        
+        return instance
 
 # create callout requests
 class CalloutSerializer(serializers.ModelSerializer):
@@ -81,8 +96,6 @@ class CalloutSerializer(serializers.ModelSerializer):
         instance.review = self.validated_data.get('review', instance.review)
         instance.save()
         return instance
-
-# get average reviews 
 
 # add a subscription car
 class UserSubscriptionsSerializer(serializers.ModelSerializer):

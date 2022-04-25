@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import CustomUser as User
 from .models import RoadsideCallout, UserSubscriptions, UserLocation
-from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer, LocationSerializer
+from .serializers import RegisterSerializer, CalloutSerializer, UserSubscriptionsSerializer, LocationSerializer, UserSerializer
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -139,3 +139,41 @@ class GetLocationView(APIView):
             return JsonResponse({"status": "Required arg. 'username'"})
 
         return JsonResponse(queryset, safe=False)
+
+class GetUserDetailsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            queryset = list(User.objects.filter(username=request.GET['username']).values())
+            queryset[0].pop('password')
+            queryset[0].pop('is_staff')
+            queryset[0].pop('last_login')
+            queryset[0].pop('is_superuser')
+            queryset[0].pop('is_active')
+            subscriptions = list(UserSubscriptions.objects.filter(username=request.GET['username']).values())
+            queryset[0]['subscriptions'] = subscriptions
+        except KeyError:
+            return Response({"status": "Required arg. 'username'"}, status=status.HTTP_400_BAD_REQUEST)
+        except IndexError:
+            return Response({"status": "Username not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return JsonResponse(queryset, safe=False)
+
+class UpdateUserDetailsView(generics.CreateAPIView):
+    queryset = UserLocation.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def post(self, request, *args, **kwargs):
+        username = request.data['current_username']
+        try:
+            user_obj = User.objects.get(username=username)
+        except:
+            return Response({"status": "username does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        updated_user = UserSerializer(user_obj, request.data)
+
+        if updated_user.is_valid():
+            updated_user.update(user_obj, updated_user)
+            return Response(updated_user.data)
+        return Response(updated_user.errors, status=status.HTTP_400_BAD_REQUEST)

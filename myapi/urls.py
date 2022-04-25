@@ -33,4 +33,6 @@ urlpatterns = [
     path('create_location/', views.CreateLocationView.as_view(), name='create_location'),
     path('update_location/', views.UpdateLocationView.as_view(), name='update_location'),    
     path('get_location/', views.GetLocationView.as_view(), name='get_location'),
+    path('update_user_details/', views.UpdateUserDetailsView.as_view(), name='update_user_details'),    
+    path('get_user_details/', views.GetUserDetailsView.as_view(), name='get_user_details'),
 ]
