@@ -17,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type', 'image')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True},
@@ -41,6 +41,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             user_type=validated_data['user_type'],
+            image=validated_data.get('image', None),
         )
  
         user.set_password(validated_data['password'])
@@ -58,6 +59,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = self.validated_data.get('username', instance.username)
         instance.first_name = self.validated_data.get('first_name', instance.first_name)
         instance.last_name = self.validated_data.get('last_name', instance.last_name)
+        
+        # instance.image = self.validated_data.get('image', instance.image)
+        
         # if validated_data['password']:
         #     instance.set_password(validated_data['password'])
         instance.save()

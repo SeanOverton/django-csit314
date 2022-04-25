@@ -16,6 +16,8 @@ Including another URLconf
 from myapi.core import views
 from django.urls import path, re_path
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +37,7 @@ urlpatterns = [
     path('get_location/', views.GetLocationView.as_view(), name='get_location'),
     path('update_user_details/', views.UpdateUserDetailsView.as_view(), name='update_user_details'),    
     path('get_user_details/', views.GetUserDetailsView.as_view(), name='get_user_details'),
-]
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

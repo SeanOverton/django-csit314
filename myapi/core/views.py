@@ -10,16 +10,26 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import mixins
 from django.http import JsonResponse
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class HelloView(APIView):
     def get(self, request):
         content = {'message': 'Hello, World! Our server is up, lets go!'}
         return Response(content)
 
-class RegisterView(generics.CreateAPIView):
+class RegisterView(APIView):
     queryset = User.objects.all()
+
+    parser_classes = (MultiPartParser, FormParser)
+
     permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
+
+    def post(self, request, format=None):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
 class CreateRoadsideCalloutView(generics.CreateAPIView, 
                 ):
