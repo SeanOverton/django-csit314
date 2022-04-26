@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # from django.contrib.auth.models import User
 from .models import CustomUser as User
-from .models import RoadsideCallout, UserSubscriptions
+from .models import RoadsideCallout, UserSubscriptions, UserLocation
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueTogetherValidator
@@ -17,8 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        #need to add type of user ie. mechanic or not? and also subscription or not?
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'user_type', 'image')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True},
@@ -42,12 +41,32 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             user_type=validated_data['user_type'],
+            image=validated_data.get('image', None),
         )
  
         user.set_password(validated_data['password'])
         user.save()
 
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+    def update(self, instance, validated_data):
+        # only allows you to update username and password
+        instance.username = self.validated_data.get('username', instance.username)
+        instance.first_name = self.validated_data.get('first_name', instance.first_name)
+        instance.last_name = self.validated_data.get('last_name', instance.last_name)
+        
+        # instance.image = self.validated_data.get('image', instance.image)
+        
+        # if validated_data['password']:
+        #     instance.set_password(validated_data['password'])
+        instance.save()
+        
+        return instance
 
 # create callout requests
 class CalloutSerializer(serializers.ModelSerializer):
@@ -62,8 +81,8 @@ class CalloutSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, attrs):
-        if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED']:
-            raise serializers.ValidationError({"status": "Invalid Status. Use instead: PENDING, ACCEPTED and COMPLETE."})
+        if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']:
+            raise serializers.ValidationError({"status": "Invalid Status. Use instead: ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']"})
 
         return attrs
 
@@ -82,15 +101,44 @@ class CalloutSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-# for next serializers. https://www.django-rest-framework.org/tutorial/1-serialization/
-
-# get average reviews 
-
 # add a subscription car
 class UserSubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSubscriptions
-        fields = ('username', 'vehicle_registration')
+        fields = ('username', 'vehicle_registration', 'vehicle_type', 'vehicle_model', 'vehicle_brand', 'vehicle_year', 'vehicle_weight', 'active')
     
     def create(self, validated_data):
         return UserSubscriptions.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.username = self.validated_data.get('username', instance.username)
+        instance.vehicle_registration = self.validated_data.get('vehicle_registration', instance.vehicle_registration)
+        instance.active = self.validated_data.get('active', instance.active)
+        instance.save()
+        return instance
+
+# create callout requests
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserLocation
+        fields = ('username', 'location')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=UserLocation.objects.all(),
+                fields=['username']
+            )
+        ]
+
+    # def validate(self, attrs):
+    #     if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']:
+    #         raise serializers.ValidationError({"status": "Invalid Status. Use instead: ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']"})
+
+    #     return attrs
+
+    def create(self, validated_data):
+        return UserLocation.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.location = self.validated_data.get('location', instance.location)
+        instance.save()
+        return instance

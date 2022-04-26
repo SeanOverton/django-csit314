@@ -31,7 +31,11 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "csit314-python-backend.herokuapp.com",
+    "127.0.0.1",
+    "localhost"
+]
 
 
 # Application definition
@@ -96,6 +100,9 @@ DATABASES = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://csit314-python-backend.herokuapp.com'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -133,6 +140,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+MEDIA_URL = '/media/' # Public URL at the browser
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -149,4 +161,6 @@ AUTH_USER_MODEL = 'core.CustomUser'
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'https://csit314-frontend.herokuapp.com',
+    'https://csit314-python-backend.herokuapp.com',
 ]
