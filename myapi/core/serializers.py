@@ -35,15 +35,23 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            user_type=validated_data['user_type'],
-            image=validated_data.get('image', None),
-        )
- 
+        if validated_data.get('image', None):
+            user = User.objects.create(
+                username=validated_data['username'],
+                email=validated_data['email'],
+                first_name=validated_data['first_name'],
+                last_name=validated_data['last_name'],
+                user_type=validated_data['user_type'],
+                image=validated_data['image'],
+            )
+        else:
+            user = User.objects.create(
+                username=validated_data['username'],
+                email=validated_data['email'],
+                first_name=validated_data['first_name'],
+                last_name=validated_data['last_name'],
+                user_type=validated_data['user_type'],
+            )
         user.set_password(validated_data['password'])
         user.save()
 

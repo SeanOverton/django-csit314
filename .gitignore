@@ -6,7 +6,7 @@ venv/
 *.pyc
 __pycache__
 db.sqlite3
-media
+media/
 
 myapi/core/migrations/*.py
 
