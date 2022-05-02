@@ -8,7 +8,7 @@ __pycache__
 db.sqlite3
 media/
 
-myapi/core/migrations/*.py
+# myapi/core/migrations/*.py
 
 # Backup files # 
 *.bak 
