@@ -1,12 +1,425 @@
 {
 	"info": {
-		"_postman_id": "58178be8-3a8a-440f-9b85-cc50e8fdf049",
-		"name": "RequestsCollection",
+		"_postman_id": "46a0856a-fcf8-41aa-ad57-30686da934b7",
+		"name": "CSIT314 Django Backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "CreateUserCustomer",
+			"name": "Update user details",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 56c226de420a0f881165de8442338c07f79e0ed1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "sean",
+							"type": "text"
+						},
+						{
+							"key": "current_username",
+							"value": "sean123",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "sean",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "smith",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/update_user_details/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"update_user_details",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "sean",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/get_user_details/?username=jack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"get_user_details",
+						""
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "jack"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update location",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "sean",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "{\"lat\": -34.3, \"lng\": 150.934}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/update_location/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"update_location",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a users subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_subscriptions?username=sean",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_subscriptions"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "sean"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a subscription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "sean",
+							"type": "text"
+						},
+						{
+							"key": "vehicle_registration",
+							"value": "ABC-123",
+							"type": "text"
+						},
+						{
+							"key": "active",
+							"value": "False",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/update_subscription/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"update_subscription",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all current callouts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/all_callouts",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"all_callouts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a callout object, including status, location, mechanic",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "daniel",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "ACCEPTED",
+							"type": "text"
+						},
+						{
+							"key": "location ",
+							"value": "newspot",
+							"type": "text"
+						},
+						{
+							"key": "mechanic",
+							"value": "new name",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2022-03-26",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "rating",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "review",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "my car broke bro",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/update_callout/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"update_callout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a callout object",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 1044ed2b1408d935bce0c9d2794752df3cd3eef9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "dean",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "PENDING",
+							"type": "text"
+						},
+						{
+							"key": "location ",
+							"value": "chinatown",
+							"type": "text"
+						},
+						{
+							"key": "mechanic",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2022-03-26",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "rating",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "review",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "my car broke bro",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/create_callout/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"create_callout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign up as a customer or mechanic",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -15,31 +428,44 @@
 					"formdata": [
 						{
 							"key": "username",
-							"value": "john"
+							"value": "jack",
+							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "john12345"
+							"value": "test12345",
+							"type": "text"
 						},
 						{
 							"key": "password2",
-							"value": "john12345"
+							"value": "test12345",
+							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "john@email.com"
+							"value": "jack@email.com",
+							"type": "text"
 						},
 						{
 							"key": "first_name",
-							"value": "john"
+							"value": "sean",
+							"type": "text"
 						},
 						{
 							"key": "last_name",
-							"value": "o"
+							"value": "o",
+							"type": "text"
 						},
 						{
 							"key": "user_type",
-							"value": "customer"
+							"value": "customer",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"value": "",
+							"type": "text",
+							"disabled": true
 						}
 					]
 				},
@@ -59,70 +485,10 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "CreateUserJohn",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "username",
-									"value": "john"
-								},
-								{
-									"key": "password",
-									"value": "john12345"
-								},
-								{
-									"key": "password2",
-									"value": "john12345"
-								},
-								{
-									"key": "email",
-									"value": "john@email.com"
-								},
-								{
-									"key": "first_name",
-									"value": "john"
-								},
-								{
-									"key": "last_name",
-									"value": "o"
-								},
-								{
-									"key": "user_type",
-									"value": "customer"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/register/",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"register",
-								""
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
+			"response": []
 		},
 		{
-			"name": "CreateUserMechanic",
+			"name": "Login",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -131,127 +497,13 @@
 					"formdata": [
 						{
 							"key": "username",
-							"value": "john"
+							"value": "jack",
+							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "john12345"
-						},
-						{
-							"key": "password2",
-							"value": "john12345"
-						},
-						{
-							"key": "email",
-							"value": "john@email.com"
-						},
-						{
-							"key": "first_name",
-							"value": "john"
-						},
-						{
-							"key": "last_name",
-							"value": "o"
-						},
-						{
-							"key": "user_type",
-							"value": "mechanic"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/register/",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"register",
-						""
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "CreateUserJohn",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "username",
-									"value": "john"
-								},
-								{
-									"key": "password",
-									"value": "john12345"
-								},
-								{
-									"key": "password2",
-									"value": "john12345"
-								},
-								{
-									"key": "email",
-									"value": "john@email.com"
-								},
-								{
-									"key": "first_name",
-									"value": "john"
-								},
-								{
-									"key": "last_name",
-									"value": "o"
-								},
-								{
-									"key": "user_type",
-									"value": "mechanic"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/register/",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"register",
-								""
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
-		},
-		{
-			"name": "LoginUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": ""
-						},
-						{
-							"key": "password",
-							"value": ""
+							"value": "test12345",
+							"type": "text"
 						}
 					]
 				},
@@ -267,240 +519,6 @@
 					"port": "8000",
 					"path": [
 						"login",
-						""
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "LoginUserJohn",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "username",
-									"value": "john"
-								},
-								{
-									"key": "password",
-									"value": "john12345"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/login/",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"login",
-								""
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
-		},
-		{
-			"name": "Hello",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "",
-						"equals": true
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/hello/",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"hello",
-						""
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Hello",
-					"originalRequest": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Token 1ee5ded0e0b8dd7fcc8dace449a81a5d083f5dfc",
-								"equals": true
-							}
-						],
-						"url": {
-							"raw": "http://127.0.0.1:8000/hello/",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"hello",
-								""
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
-		},
-		{
-			"name": "CreateCallout",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "status",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "location",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "mechanic",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "date",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "rating",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "review",
-							"value": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/callout/",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"callout",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UpdateCallout",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "status",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "location",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "mechanic",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "date",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "rating",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "review",
-							"value": "",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/callout/",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"callout",
 						""
 					]
 				}
