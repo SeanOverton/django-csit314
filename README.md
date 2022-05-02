@@ -1,9 +1,10 @@
 
 ## Setup
 1) Clone this project: ```git clone https://github.com/SeanOverton/django-csit314.git```
-2) Install dependencies: ```pip install -r requirements.txt```
-3) Run ```python -c "import secrets; print(secrets.token_urlsafe())"``` to generate a secret key. 
-4) Copy the contents of example .env-EXAMPLE and add your secret key generated from the last command into this file. Save this file as **.env** in the root directory. 
+2) [OPTIONAL but recommended] Recommend that you create and activate a virtual env in your terminal here before running the pip install. This process will vary depending on OS so please look into it before you try this: https://docs.python.org/3/library/venv.html#:~:text=A%20virtual%20environment%20is%20a,part%20of%20your%20operating%20system.
+3) Install dependencies: ```pip install -r requirements.txt```
+4) Run ```python -c "import secrets; print(secrets.token_urlsafe())"``` to generate a secret key.
+5) Copy the contents of .env-EXAMPLE and add your secret key generated from the last command into this file. Save this file as **.env** in the root directory. 
   File contents should look like ```DJANGO_SECRET_KEY=<your_secret_key>```
 5) ```python manage.py makemigrations```
 6) ```python manage.py migrate```
