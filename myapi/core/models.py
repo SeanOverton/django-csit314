@@ -41,4 +41,4 @@ class UserSubscriptions(models.Model):
 
 class UserLocation(models.Model):
     username = models.CharField(max_length=25)
-    location = models.JSONField()
+    location = models.JSONField() # this is currently latitude and longitude object
