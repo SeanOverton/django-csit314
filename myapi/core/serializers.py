@@ -137,11 +137,11 @@ class LocationSerializer(serializers.ModelSerializer):
             )
         ]
 
-    # def validate(self, attrs):
-    #     if attrs['status'] not in ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']:
-    #         raise serializers.ValidationError({"status": "Invalid Status. Use instead: ['PENDING', 'ACCEPTED', 'COMPLETED', 'REVIEWED', 'CANCELLED']"})
+    def validate(self, attrs):
+        if list(attrs['location'].keys()) != ["lat", "lng"]:
+            raise serializers.ValidationError({"location": "Invalid Location JSON keys. JSON must be in format {'lat': 0, 'lng': 0}"})
 
-    #     return attrs
+        return attrs
 
     def create(self, validated_data):
         return UserLocation.objects.create(**validated_data)
