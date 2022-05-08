@@ -21,7 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', views.HelloView.as_view(), name='hello'),
+    path('', views.HelloView.as_view(), name='hello'),
     #this path is for getting tokens with username and password
     #NOTE: this currently does not expire on server side
     path('login/', views.CustomAuthToken.as_view(), name='api_token_auth'),
