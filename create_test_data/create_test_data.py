@@ -96,7 +96,7 @@ for i in range(0, AMOUNT_OF_CALLOUTS):
     username = customers[choice]["username"]
 
     choice = random.randint(0, len(mechanics)-1)
-    mechanic = customers[choice]["username"]
+    mechanic = mechanics[choice]["username"]
 
     rating = random.randint(0, 9)
 
