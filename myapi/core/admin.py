@@ -7,7 +7,12 @@ class CustomUserAdmin(UserAdmin):
         'username', 'email', 'first_name', 'last_name', 'user_type', 'image'
         )
 
+class RoadsideCalloutAdmin(admin.ModelAdmin):
+    list_display = (
+        'username', 'status', 'location', 'description', 'mechanic', 'rating', 'review'
+        )
+
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(RoadsideCallout)
+admin.site.register(RoadsideCallout, RoadsideCalloutAdmin)
 admin.site.register(UserSubscriptions)
 admin.site.register(UserLocation)
